@@ -1,6 +1,6 @@
 {
   "name": "capacitor-in-app-message",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Firebase in app messaging",
   "main": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",

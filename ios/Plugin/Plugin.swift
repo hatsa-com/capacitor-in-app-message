@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import Firebase
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -8,10 +9,18 @@ import Capacitor
 @objc(InAppMessage)
 public class InAppMessage: CAPPlugin {
     
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.success([
-            "value": value
-        ])
+    public override func load() {
+        if (FirebaseApp.app() == nil) {
+            FirebaseApp.configure();
+        }
+    }
+    
+    @objc func triggerEvent(_ call: CAPPluginCall) {
+        if let value = call.getString("event") {
+            InAppMessaging.inAppMessaging().triggerEvent(value)
+            call.success()
+        } else {
+            call.error("Missing parameter: event")
+        }
     }
 }

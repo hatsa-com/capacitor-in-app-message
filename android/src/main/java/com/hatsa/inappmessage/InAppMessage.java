@@ -5,16 +5,19 @@ import com.getcapacitor.NativePlugin;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 
 @NativePlugin()
 public class InAppMessage extends Plugin {
 
     @PluginMethod()
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
-
-        JSObject ret = new JSObject();
-        ret.put("value", value);
-        call.success(ret);
+    public void triggerEvent(PluginCall call) {
+        String value = call.getString("event");
+        if (value != "" && value != null) {
+            FirebaseInAppMessaging.getInstance().triggerEvent(value);
+            call.success();
+        } else {
+            call.error("Missing parameter: event");
+        }
     }
 }
